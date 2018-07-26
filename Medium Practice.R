@@ -107,12 +107,21 @@ cor(originalDataWithoutNull$height, originalDataWithoutNull$weight)
 
 
 
-
+# Attach & Detach
 height
 originalData$height
 attach(originalData)
 height
 detach(originalData)
 height
+# I could use attach() function and detach() function to extract and put back specific data in a form/list.
+
+
+
+
+
+
+
+
 # install.packages("mice")
 
