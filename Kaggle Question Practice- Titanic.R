@@ -5,7 +5,7 @@ rawDataOfTitanic<- read.csv("/Users/Lizhengen/Documents/GitHub/R-Practice/Data o
 # Delete the Null Data
 complete.cases(rawDataOfTitanic)
 rawDataOfTitanicWithoutNull <- na.omit(rawDataOfTitanic)
-
+summary(rawDataOfTitanicWithoutNull)
 
 
 # Survive Rate
@@ -122,6 +122,68 @@ barplot(tableOfNumberOfSurvivedAndEmbark[, 2:4], beside = T, main = "Distributio
 
 
 
-# Regression
-result <- lm(rawDataOfTitanicWithoutNull$Survived~rawDataOfTitanicWithoutNull$Pclass+rawDataOfTitanicWithoutNull$Sex+rawDataOfTitanicWithoutNull$Age+rawDataOfTitanicWithoutNull$SibSp+rawDataOfTitanicWithoutNull$Parch+rawDataOfTitanicWithoutNull$Fare+rawDataOfTitanicWithoutNull$Embarked)
-summary(result)
+# Linear-Regression
+LinearRegressionModel <- lm(Survived~Pclass+Sex+Age+SibSp+Parch+Fare+Embarked, data = rawDataOfTitanicWithoutNull)
+summary(LinearRegressionModel)
+
+modifiedLinearRegressionModel <- lm(Survived~Pclass+Sex+Age+SibSp, data = rawDataOfTitanicWithoutNull)
+summary(modifiedLinearRegressionModel)
+
+
+
+# Prediction
+rawTestDataOfTitanic<- read.csv("/Users/Lizhengen/Documents/GitHub/R-Practice/Data of Titanic/test.csv")
+ResultOfTestDataOfTitanic<- read.csv("/Users/Lizhengen/Documents/GitHub/R-Practice/Data of Titanic/gender_submission.csv")
+complete.cases(rawTestDataOfTitanic)
+
+#badge <- c(0)
+#numberOfHiHi <- 1
+#
+#for (row in 1:nrow(rawTestDataOfTitanic)) {
+#  for (column in 1:ncol(rawTestDataOfTitanic)) {
+#    if (is.na(rawTestDataOfTitanic[row, column]) == TRUE) {
+#      badge[numberOfHiHi] = row
+#      numberOfHiHi = numberOfHiHi + 1
+#    } else {
+#     
+#    }
+#  }
+#}
+
+rawTestDataOfTitanic[, 12] <- ResultOfTestDataOfTitanic[, 2]
+rawTestDataOfTitanicWithoutNull <- na.omit(rawTestDataOfTitanic)
+predict(modifiedLinearRegressionModel, rawTestDataOfTitanicWithoutNull)
+
+
+
+# Generalized Linear Regression Model & Prediction 
+GLMModel <- glm(Survived~Pclass+Sex+Age+SibSp, family = binomial(link = "probit"), data = rawDataOfTitanicWithoutNull)
+summary(GLMModel)
+
+predictionOfGLM <- predict(GLMModel, rawTestDataOfTitanicWithoutNull, type = "response")
+
+for (i in 1:nrow(rawTestDataOfTitanicWithoutNull)) {
+  if (predictionOfGLM[i] < 0.5) {
+    predictionOfGLM[i] = 0
+  } else {
+    predictionOfGLM[i] = 1
+  }
+}
+
+
+
+# Check the Accuracy
+correct = 0
+incorrect = 0
+accuracy = 0
+
+for (m in 1:nrow(rawTestDataOfTitanicWithoutNull)) {
+  if (predictionOfGLM[m] == rawTestDataOfTitanicWithoutNull[m, 12]) {
+    correct = correct + 1
+  } else {
+    incorrect = incorrect + 1
+  }
+}
+accuracy = (correct / (correct + incorrect)) * 100
+print(round(accuracy, 2))
+

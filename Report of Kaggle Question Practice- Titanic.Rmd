@@ -1,0 +1,32 @@
+---
+title: "Report of Kaggle Question Practice- Titanic"
+author: "Li Cheng-En"
+date: "7/27/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Motivation
+
+As a student who stayed in the department of finance, statistic is important to me. Furthermore, the issue of big data was popular, it also highlight the importance of statistic. R is a good tool to
+
+I also have written several codes of R. For more details about my codes, please see <https://github.com/Datoto1205/R-Practice>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
