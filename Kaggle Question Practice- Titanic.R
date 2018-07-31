@@ -8,7 +8,7 @@ rawDataOfTitanicWithoutNull <- na.omit(rawDataOfTitanic)
 summary(rawDataOfTitanicWithoutNull)
 
 
-# Survive Rate
+# Survival Rate
 tableOfSurviveData <- table(rawDataOfTitanicWithoutNull$Survived)
 names(tableOfSurviveData) <- c("Dead", "Survive")
 
@@ -113,7 +113,7 @@ legend("bottom", c("Dead", "Survived"), fill = colorOfPieChart)
 
 
 
-#Embark
+# Embark
 par(mfrow = c(1, 1))
 tableOfNumberOfSurvivedAndEmbark <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Embarked)
 tableOfNumberOfSurvivedAndEmbark

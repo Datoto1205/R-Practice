@@ -36,17 +36,17 @@ rawDataOfTitanicWithoutNull <- na.omit(rawDataOfTitanic)
 summary(rawDataOfTitanicWithoutNull)
 ```
 
-I use the codes above to import the raw data, check whether there is any null data and get its summary. I found that some raw data are null. It seems that I need to use some method to replace these data. However, I wonder whether the new data is useful or not. Therefore, I decided to delete all of the raws in which there's some null data. The summary of final data was shown below.
+I use the codes above to import the raw data, check whether there is any null data and get its summary. I found that some raw data are null. It seems that I need to use some method to replace these data. However, I wonder whether the new data is useful or not. Therefore, I decided to delete all of the raws in which there are some null data. The summary of the final data was shown below.
 
 ```{r, echo= FALSE}
 summary(rawDataOfTitanicWithoutNull)
 ```
 
 
-##### 2. Survive Rate
+##### 2. Survival Rate
 
 ```{r}
-# Survive Rate
+# Survival Rate
 tableOfSurviveData <- table(rawDataOfTitanicWithoutNull$Survived)
 names(tableOfSurviveData) <- c("Dead", "Survive")
 
@@ -60,9 +60,9 @@ legend("topright", names(tableOfSurviveData), fill = colorOfPieChart)
 
 ```
 
-After I disposed null data in the raw data, I started to examine it through each variable. The formost variable is survive rate. I used the codes above to check it, and I found that the people who survived in this accident account for around 41 percent of all the people who took the Titanic. The pie chart above reflected this result.
+After I disposed of null data in the raw data, I started to examine it through each variable. The foremost variable is survival rate. I used the codes above to check it, and I found that the people who survived in this accident account for around 41 percent of all the people who took the Titanic. The pie chart above reflected this result.
 
-##### 3. Pclass (not checked)
+##### 3. Pclass
 
 ```{r}
 # Pclass
@@ -70,7 +70,7 @@ tableOfNumberOfSurvivedAndPclass <- table(rawDataOfTitanicWithoutNull$Survived, 
 barplot(tableOfNumberOfSurvivedAndPclass, beside = T, legend.text = c("Dead", "Survive"), xlab = "Pclass", ylab = "Number of people")
 ```
 
-After we examine the survive rate, we start to examine other variables to check the relationship between each variable and the survive rate. The first variable is Pclass, which means the income level of each passengers. After we ran the codes above, we could found the truth that eliter the passenger is, less probable the passenger could survive. The bar plot above reflected this result.
+After we examine the survival rate, we start to examine other variables to check the relationship between each variable and the survival rate. The first variable is Pclass, which means the ticket class of each passenger. After we ran the codes above, we could find the truth that more elite the passenger is, less probable the passenger could survive. The bar plot above reflected this result.
 
 ##### 4. Sex
 
@@ -80,7 +80,7 @@ tableOfNumberOfSurvivedAndSex <- table(rawDataOfTitanicWithoutNull$Survived, raw
 barplot(tableOfNumberOfSurvivedAndSex, beside = T, legend.text = c("Dead", "Survive"), xlab = "Sex", ylab = "Number of people")
 ```
 
-The second variable is sex, which means the sex of each passenger. After we ran the codes above, we could found that female passenger could survive more possibly from the bar chart. The bar plot above reflected this result.
+The second variable is sex, which means the sex of each passenger. After we ran the codes above and saw the bar chart, we could found that female passenger could survive more possibly. The bar plot above reflected this result.
 
 ##### 5. Age
 
@@ -98,7 +98,7 @@ abline(v = 21)
 abline(v = 73)
 ```
 
-The third variable is age, which means the age of each passenger. After we ran the codes above, we could found that the younger could survive more possibly, and the older could survive less possibly. The number of middle-aged passengers who survived was less than that of passengers who died. The plots of distribution of age were shown above.
+The third variable is age, which means the age of each passenger. After we ran the codes above, we could found that the younger could survive more possibly, and the older could survive less possibly. The number of middle-aged passengers who survived was less than that of passengers who died. The plots of the distribution of age were shown above.
 
 ##### 6. Distribution of Number of Sibling and Spouse
 
@@ -109,7 +109,7 @@ barplot(tableOfNumberOfSurvivedAndSibSp[,1], beside = T, main = "Distribution of
 barplot(tableOfNumberOfSurvivedAndSibSp[,2], beside = T, main = "Distribution of SibSp of Survivors", ylim = c(0, 310), xlab = "Number of sibling and spouse", ylab = "Number of People")
 ```
 
-The forth variable is SibSp, which means the distribution of number of sibling and spouse (called SibSp below). After we ran the codes above, we could found that the survivor who own one SibSp could survive more possibly relatively. The bar plots of distribution of SibSp were shown above.
+The fourth variable is SibSp, which means the distribution of the number of sibling and spouse (called SibSp below). After we ran the codes above, we could found that the survivor who owns one SibSp could survive more possibly relatively. The bar plots of the distribution of SibSp were shown above.
 
 ##### 7. Distribution of Number of Parents and Descendant
 
@@ -120,9 +120,9 @@ barplot(tableOfNumberOfSurvivedAndParch[, 1], beside = T, main = "Distribution o
 barplot(tableOfNumberOfSurvivedAndParch[, 2], beside = T, main = "Distribution of Parch of Survivors", ylim = c(0, 350), xlab = "Number of Parents and Descendant", ylab = "Number of People")
 ```
 
-The fifth variable is Parch, which means the distribution of number of parents and descendant (called Parch below). After we ran the codes above, we could found that the survivor who own one and two Parch could survive more possibly relatively. The bar plots of distribution of Parch were shown above.
+The fifth variable is Parch, which means the distribution of the number of parents and descendant (called Parch below). After we ran the codes above, we could found that the survivor who own one and two Parch could survive more possibly relatively. The bar plots of the distribution of Parch were shown above.
 
-##### Fares
+##### 8. Fares
 
 ```{r}
 vectorOfTimesOfDistributionOfDier <- c(rep(0, 30))
@@ -148,18 +148,50 @@ barplot(vectorOfTimesOfDistributionOfDier, xlim = c(0, 30), ylim = c(0, 200), ma
 barplot(vectorOfTimesOfDistributionOfSurvivor, xlim = c(0, 30), ylim = c(0, 200), main = "Distribution of Fares Survivors Spent", xlab = "Amount of Fares", ylab = "Number of People")
 ```
 
-The sixth variable is 
+The sixth variable is Fare, which means the fares each passenger need to pay. After we ran the codes above and see the histogram, we could find that the passengers whose fares were around 10~30 could survive more possibly relatively. The histograms of the distribution of the fares were shown above.
 
+##### 9. Cabin
+```{r}
+# Cabin
+tableOfNumberOfSurvivedAndCabin<- table(rawDataOfTitanicWithoutNull$Cabin, rawDataOfTitanicWithoutNull$Survived)
+PercentageOfSurvivedRateWithoutCabinNumber <- round(tableOfNumberOfSurvivedAndCabin[1, 1]/(tableOfNumberOfSurvivedAndCabin[1, 1] + tableOfNumberOfSurvivedAndCabin[1, 2]), 4)
+PercentageOfDyingRateWithoutCabinNumber <- 1 - PercentageOfSurvivedRateWithoutCabinNumber
 
+par(mfrow = c(1, 2))
+pie(c(tableOfNumberOfSurvivedAndCabin[1, 1], tableOfNumberOfSurvivedAndCabin[1, 2]), col = c("white", "gray"), labels = c(PercentageOfSurvivedRateWithoutCabinNumber, PercentageOfDyingRateWithoutCabinNumber), main = "Distribution of Passengers Without Cabin Number")
+legend("bottom", c("Dead", "Survived"), fill = colorOfPieChart)
 
+NumberOfDyingRateWithCabinNumber = 0
+NumberOfSurvivedRateWithCabinNumber = 0
+for (i in 2:nrow(tableOfNumberOfSurvivedAndCabin)) {
+  NumberOfDyingRateWithCabinNumber = tableOfNumberOfSurvivedAndCabin[i, 1] + NumberOfDyingRateWithCabinNumber
+  NumberOfSurvivedRateWithCabinNumber = tableOfNumberOfSurvivedAndCabin[i, 2] + NumberOfSurvivedRateWithCabinNumber
+}
 
+PercentageOfSurvivedRateWithCabinNumber <- round(NumberOfSurvivedRateWithCabinNumber / (NumberOfSurvivedRateWithCabinNumber + NumberOfDyingRateWithCabinNumber), 4)
+PercentageOfDyingRateWithCabinNumber <- 1 - PercentageOfSurvivedRateWithCabinNumber
 
+pie(c(NumberOfSurvivedRateWithCabinNumber, NumberOfDyingRateWithCabinNumber), col = c("white", "gray"), labels = c(PercentageOfSurvivedRateWithCabinNumber, PercentageOfDyingRateWithCabinNumber), main = "Distribution of Passengers With Cabin Number")
+legend("bottom", c("Dead", "Survived"), fill = colorOfPieChart)
+```
 
+The seventh variable is Cabin, which means the cabin number of each passenger. After we ran the codes above and checked the pie charts, we could find that the cabin number almost would not influence the survival of passenger. The pie charts of the distribution of passengers' cabin number were shown above.
 
+##### 10. Embark
+```{r}
+# Embark
+par(mfrow = c(1, 1))
+tableOfNumberOfSurvivedAndEmbark <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Embarked)
+tableOfNumberOfSurvivedAndEmbark
+barplot(tableOfNumberOfSurvivedAndEmbark[, 2:4], beside = T, main = "Distribution of Harbors Passengers Embarked", legend.text = c("Dead", "Survived"), xlab = "Name of Harbor", ylab = "Number of People")
+```
 
+The eighth variable is Embark, which means the harbor passengers chose to start their journey. After we ran the codes above and checked the bar plot, we could find that the passengers who embark the Titanic from C harbor could survive more possibly. The bar plot of the distribution of harbors was shown above.
 
+Actually, I have not analyzed some variables yet. However, I reckon that I have analyzed almost all of the variables, I still could use these variables to do further calculation and estimation. Therefore, I would end my analysis of each variable and go on to the next part.
 
-You can embed an R code chunk like this:
+### Prediction
+
 
 
 
@@ -172,3 +204,6 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+Copyright © 2018 Li Cheng-En. All Rights Reserved.
