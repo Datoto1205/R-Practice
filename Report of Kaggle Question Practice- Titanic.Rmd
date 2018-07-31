@@ -11,15 +11,157 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Motivation
 
-As a student who stayed in the department of finance, statistic is important to me. Furthermore, the issue of big data was popular, it also highlight the importance of statistic. R is a good tool to
+As a student who stayed in the department of finance, statistic is important to me. Furthermore, the issue of big data was popular, it also highlights the importance of statistic. R is a good tool to do the works of statistic, so I want to learn some knowledge about R to strengthen myself.
+
+In order to prove my capability, I want to use R to analyze an issue. Hence, I chose "Titanic", a question of Kaggle, a popular website about machine learning in the US, as the target question. This file is my final answer & report of the Kaggle question I chose.
+
+I divided my report into two part. I would analyze the property of each variable in the first part, and I do some prediction in the second part. Please read my complete report to understand the process of my analysis.
 
 I also have written several codes of R. For more details about my codes, please see <https://github.com/Datoto1205/R-Practice>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+### Observation
+##### 1. Raw Data
 
-```{r cars}
-summary(cars)
+```{r, results = 'hide'}
+rawDataOfTitanic <- read.csv("/Users/Lizhengen/Documents/GitHub/R-Practice/Data of Titanic/train.csv")
+
+# Delete the Null Data
+complete.cases(rawDataOfTitanic)
+rawDataOfTitanicWithoutNull <- na.omit(rawDataOfTitanic)
+summary(rawDataOfTitanicWithoutNull)
+
+# Delete the Null Data
+complete.cases(rawDataOfTitanic)
+rawDataOfTitanicWithoutNull <- na.omit(rawDataOfTitanic)
+summary(rawDataOfTitanicWithoutNull)
 ```
+
+I use the codes above to import the raw data, check whether there is any null data and get its summary. I found that some raw data are null. It seems that I need to use some method to replace these data. However, I wonder whether the new data is useful or not. Therefore, I decided to delete all of the raws in which there's some null data. The summary of final data was shown below.
+
+```{r, echo= FALSE}
+summary(rawDataOfTitanicWithoutNull)
+```
+
+
+##### 2. Survive Rate
+
+```{r}
+# Survive Rate
+tableOfSurviveData <- table(rawDataOfTitanicWithoutNull$Survived)
+names(tableOfSurviveData) <- c("Dead", "Survive")
+
+TotalNumberOfPeople <- tableOfSurviveData[1]+tableOfSurviveData[2]
+percentageLabel <- c(round(tableOfSurviveData[1]/TotalNumberOfPeople, 4), round(tableOfSurviveData[2]/TotalNumberOfPeople, 4))
+
+colorOfPieChart <- c("white", "gray")
+pie(tableOfSurviveData, labels = percentageLabel, col = colorOfPieChart, main = "Total Survived Rate", radius = 0.8)
+
+legend("topright", names(tableOfSurviveData), fill = colorOfPieChart)
+
+```
+
+After I disposed null data in the raw data, I started to examine it through each variable. The formost variable is survive rate. I used the codes above to check it, and I found that the people who survived in this accident account for around 41 percent of all the people who took the Titanic. The pie chart above reflected this result.
+
+##### 3. Pclass (not checked)
+
+```{r}
+# Pclass
+tableOfNumberOfSurvivedAndPclass <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Pclass)
+barplot(tableOfNumberOfSurvivedAndPclass, beside = T, legend.text = c("Dead", "Survive"), xlab = "Pclass", ylab = "Number of people")
+```
+
+After we examine the survive rate, we start to examine other variables to check the relationship between each variable and the survive rate. The first variable is Pclass, which means the income level of each passengers. After we ran the codes above, we could found the truth that eliter the passenger is, less probable the passenger could survive. The bar plot above reflected this result.
+
+##### 4. Sex
+
+```{r}
+# Sex
+tableOfNumberOfSurvivedAndSex <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Sex)
+barplot(tableOfNumberOfSurvivedAndSex, beside = T, legend.text = c("Dead", "Survive"), xlab = "Sex", ylab = "Number of people")
+```
+
+The second variable is sex, which means the sex of each passenger. After we ran the codes above, we could found that female passenger could survive more possibly from the bar chart. The bar plot above reflected this result.
+
+##### 5. Age
+
+```{r}
+# Age
+tableOfNumberOfSurvivedAndAge <- table(rawDataOfTitanicWithoutNull$Age, rawDataOfTitanicWithoutNull$Survived)
+
+par(mfrow = c(1, 2))
+barplot(tableOfNumberOfSurvivedAndAge[,1], main = "Distribution of Age of Dier", xlab = "Age", ylab = "Number of People", ylim = c(0, 20))
+abline(v = 21)
+abline(v = 73)
+
+barplot(tableOfNumberOfSurvivedAndAge[,2], main = "Distribution of Age of Survivor", xlab = "Age", ylab = "Number of People", ylim = c(0, 20))
+abline(v = 21)
+abline(v = 73)
+```
+
+The third variable is age, which means the age of each passenger. After we ran the codes above, we could found that the younger could survive more possibly, and the older could survive less possibly. The number of middle-aged passengers who survived was less than that of passengers who died. The plots of distribution of age were shown above.
+
+##### 6. Distribution of Number of Sibling and Spouse
+
+```{r}
+# Distribution of Number of Sibling and Spouse
+tableOfNumberOfSurvivedAndSibSp <- table(rawDataOfTitanicWithoutNull$SibSp, rawDataOfTitanicWithoutNull$Survived)
+barplot(tableOfNumberOfSurvivedAndSibSp[,1], beside = T, main = "Distribution of SibSp of Diers", ylim = c(0, 310), xlab = "Number of Sibling and Spouse", ylab = "Number of People")
+barplot(tableOfNumberOfSurvivedAndSibSp[,2], beside = T, main = "Distribution of SibSp of Survivors", ylim = c(0, 310), xlab = "Number of sibling and spouse", ylab = "Number of People")
+```
+
+The forth variable is SibSp, which means the distribution of number of sibling and spouse (called SibSp below). After we ran the codes above, we could found that the survivor who own one SibSp could survive more possibly relatively. The bar plots of distribution of SibSp were shown above.
+
+##### 7. Distribution of Number of Parents and Descendant
+
+```{r}
+# Distribution of Number of Parents and Descendant
+tableOfNumberOfSurvivedAndParch <- table(rawDataOfTitanicWithoutNull$Parch, rawDataOfTitanicWithoutNull$Survived)
+barplot(tableOfNumberOfSurvivedAndParch[, 1], beside = T, main = "Distribution of Parch of Diers", ylim = c(0, 350), xlab = "Number of Parents and Descendant", ylab = "Number of People")
+barplot(tableOfNumberOfSurvivedAndParch[, 2], beside = T, main = "Distribution of Parch of Survivors", ylim = c(0, 350), xlab = "Number of Parents and Descendant", ylab = "Number of People")
+```
+
+The fifth variable is Parch, which means the distribution of number of parents and descendant (called Parch below). After we ran the codes above, we could found that the survivor who own one and two Parch could survive more possibly relatively. The bar plots of distribution of Parch were shown above.
+
+##### Fares
+
+```{r}
+vectorOfTimesOfDistributionOfDier <- c(rep(0, 30))
+vectorOfTimesOfDistributionOfSurvivor <- c(rep(0, 30))
+
+for (i in 1:30) {
+  for (j in 1:nrow(rawDataOfTitanicWithoutNull)) {
+    if ((rawDataOfTitanicWithoutNull$Survived[j] == 0) &&
+        (10 * (i - 1) <= rawDataOfTitanicWithoutNull$Fare[j]) &&
+        (rawDataOfTitanicWithoutNull$Fare[j] < (10 * i))) {
+      vectorOfTimesOfDistributionOfDier[i] = vectorOfTimesOfDistributionOfDier[i] + 1
+    } else if ((rawDataOfTitanicWithoutNull$Survived[j] == 1) &&
+               (10 * (i - 1) <= rawDataOfTitanicWithoutNull$Fare[j]) &&
+               (rawDataOfTitanicWithoutNull$Fare[j] < (10 * i))) {
+      vectorOfTimesOfDistributionOfSurvivor[i] = vectorOfTimesOfDistributionOfSurvivor[i] + 1
+    } else {
+      
+    }
+  }
+}
+
+barplot(vectorOfTimesOfDistributionOfDier, xlim = c(0, 30), ylim = c(0, 200), main = "Distribution of Fares Dier Spent", xlab = "Amount of Fares", ylab = "Number of People")
+barplot(vectorOfTimesOfDistributionOfSurvivor, xlim = c(0, 30), ylim = c(0, 200), main = "Distribution of Fares Survivors Spent", xlab = "Amount of Fares", ylab = "Number of People")
+```
+
+The sixth variable is 
+
+
+
+
+
+
+
+
+
+
+You can embed an R code chunk like this:
+
+
 
 ## Including Plots
 

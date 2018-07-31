@@ -28,7 +28,7 @@ barplot(tableOfNumberOfSurvivedAndPclass, beside = T, legend.text = c("Dead", "S
 
 
 
-# Pclass
+# Sex
 tableOfNumberOfSurvivedAndSex <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Sex)
 barplot(tableOfNumberOfSurvivedAndSex, beside = T, legend.text = c("Dead", "Survive"), xlab = "Sex", ylab = "Number of people")
 
@@ -57,7 +57,6 @@ barplot(tableOfNumberOfSurvivedAndSibSp[,2], beside = T, main = "Distribution of
 
 # Distribution of Number of Parents and Descendant
 tableOfNumberOfSurvivedAndParch <- table(rawDataOfTitanicWithoutNull$Parch, rawDataOfTitanicWithoutNull$Survived)
-tableOfNumberOfSurvivedAndParch
 barplot(tableOfNumberOfSurvivedAndParch[, 1], beside = T, main = "Distribution of Parch of Diers", ylim = c(0, 350), xlab = "Number of Parents and Descendant", ylab = "Number of People")
 barplot(tableOfNumberOfSurvivedAndParch[, 2], beside = T, main = "Distribution of Parch of Survivors", ylim = c(0, 350), xlab = "Number of Parents and Descendant", ylab = "Number of People")
 
