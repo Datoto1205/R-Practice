@@ -9,6 +9,26 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<style type="text/css">
+
+h1.title {
+  font-size: 38px;
+  color: CadetBlue;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: Teal;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: OliveDrab;
+  text-align: center;
+}
+</style>
 ### Motivation
 
 As a student who stayed in the department of finance, statistic is important to me. Furthermore, the issue of big data was popular, it also highlights the importance of statistic. R is a good tool to do the works of statistic, so I want to learn some knowledge about R to strengthen myself.
@@ -45,7 +65,7 @@ summary(rawDataOfTitanicWithoutNull)
 
 ##### 2. Survival Rate
 
-```{r}
+```{r, fig.align = 'center'}
 # Survival Rate
 tableOfSurviveData <- table(rawDataOfTitanicWithoutNull$Survived)
 names(tableOfSurviveData) <- c("Dead", "Survive")
@@ -64,7 +84,7 @@ After I disposed of null data in the raw data, I started to examine it through e
 
 ##### 3. Pclass
 
-```{r}
+```{r, fig.align = 'center'}
 # Pclass
 tableOfNumberOfSurvivedAndPclass <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Pclass)
 barplot(tableOfNumberOfSurvivedAndPclass, beside = T, legend.text = c("Dead", "Survive"), xlab = "Pclass", ylab = "Number of people")
@@ -74,7 +94,7 @@ After we examine the survival rate, we start to examine other variables to check
 
 ##### 4. Sex
 
-```{r}
+```{r, fig.align = 'center'}
 # Sex
 tableOfNumberOfSurvivedAndSex <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Sex)
 barplot(tableOfNumberOfSurvivedAndSex, beside = T, legend.text = c("Dead", "Survive"), xlab = "Sex", ylab = "Number of people")
@@ -84,7 +104,7 @@ The second variable is sex, which means the sex of each passenger. After we ran 
 
 ##### 5. Age
 
-```{r}
+```{r, fig.align = 'center'}
 # Age
 tableOfNumberOfSurvivedAndAge <- table(rawDataOfTitanicWithoutNull$Age, rawDataOfTitanicWithoutNull$Survived)
 
@@ -102,7 +122,7 @@ The third variable is age, which means the age of each passenger. After we ran t
 
 ##### 6. Distribution of Number of Sibling and Spouse
 
-```{r}
+```{r, fig.align = 'center'}
 # Distribution of Number of Sibling and Spouse
 tableOfNumberOfSurvivedAndSibSp <- table(rawDataOfTitanicWithoutNull$SibSp, rawDataOfTitanicWithoutNull$Survived)
 barplot(tableOfNumberOfSurvivedAndSibSp[,1], beside = T, main = "Distribution of SibSp of Diers", ylim = c(0, 310), xlab = "Number of Sibling and Spouse", ylab = "Number of People")
@@ -113,7 +133,7 @@ The fourth variable is SibSp, which means the distribution of the number of sibl
 
 ##### 7. Distribution of Number of Parents and Descendant
 
-```{r}
+```{r, fig.align = 'center'}
 # Distribution of Number of Parents and Descendant
 tableOfNumberOfSurvivedAndParch <- table(rawDataOfTitanicWithoutNull$Parch, rawDataOfTitanicWithoutNull$Survived)
 barplot(tableOfNumberOfSurvivedAndParch[, 1], beside = T, main = "Distribution of Parch of Diers", ylim = c(0, 350), xlab = "Number of Parents and Descendant", ylab = "Number of People")
@@ -124,7 +144,7 @@ The fifth variable is Parch, which means the distribution of the number of paren
 
 ##### 8. Fares
 
-```{r}
+```{r, fig.align = 'center'}
 vectorOfTimesOfDistributionOfDier <- c(rep(0, 30))
 vectorOfTimesOfDistributionOfSurvivor <- c(rep(0, 30))
 
@@ -151,7 +171,7 @@ barplot(vectorOfTimesOfDistributionOfSurvivor, xlim = c(0, 30), ylim = c(0, 200)
 The sixth variable is Fare, which means the fares each passenger need to pay. After we ran the codes above and see the histogram, we could find that the passengers whose fares were around 10~30 could survive more possibly relatively. The histograms of the distribution of the fares were shown above.
 
 ##### 9. Cabin
-```{r}
+```{r, fig.align = 'center'}
 # Cabin
 tableOfNumberOfSurvivedAndCabin<- table(rawDataOfTitanicWithoutNull$Cabin, rawDataOfTitanicWithoutNull$Survived)
 PercentageOfSurvivedRateWithoutCabinNumber <- round(tableOfNumberOfSurvivedAndCabin[1, 1]/(tableOfNumberOfSurvivedAndCabin[1, 1] + tableOfNumberOfSurvivedAndCabin[1, 2]), 4)
@@ -178,7 +198,7 @@ legend("bottom", c("Dead", "Survived"), fill = colorOfPieChart)
 The seventh variable is Cabin, which means the cabin number of each passenger. After we ran the codes above and checked the pie charts, we could find that the cabin number almost would not influence the survival of passenger. The pie charts of the distribution of passengers' cabin number were shown above.
 
 ##### 10. Embark
-```{r}
+```{r, fig.align = 'center'}
 # Embark
 par(mfrow = c(1, 1))
 tableOfNumberOfSurvivedAndEmbark <- table(rawDataOfTitanicWithoutNull$Survived, rawDataOfTitanicWithoutNull$Embarked)
@@ -191,19 +211,91 @@ The eighth variable is Embark, which means the harbor passengers chose to start 
 Actually, I have not analyzed some variables yet. However, I reckon that I have analyzed almost all of the variables, I still could use these variables to do further calculation and estimation. Therefore, I would end my analysis of each variable and go on to the next part.
 
 ### Prediction
+##### 1. Linear-model (unchecked)
 
-
-
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+# Linear-Regression
+LinearRegressionModel <- lm(Survived~Pclass+Sex+Age+SibSp+Parch+Fare+Embarked, data = rawDataOfTitanicWithoutNull)
+summary(LinearRegressionModel)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+After I examined the variables, I want to use these variables to do the estimation. Linear-model is the easiest way to do this work, so I want to use it. First of all, I need to choose variables I want to put into the model. Admittedly, I examined eight variables above, but it seems that one of it did not influence the survival of passengers. Hence, I ignore that variable which is Cabin. Afterward, I ran the codes to build the model and saw its summary, the codes and the result concerning this first model were shown above.
+
+Notwithstanding, I used seven variables to build the model, some variables were not significant. Thus, I excluded three variables which involved Parch, Fare and Embarked to build another linear-model, and the codes & result concerning this second model were shown below.
+
+```{r}
+modifiedLinearRegressionModel <- lm(Survived~Pclass+Sex+Age+SibSp, data = rawDataOfTitanicWithoutNull)
+summary(modifiedLinearRegressionModel)
+```
+
+##### 2. Prediction
+
+```{r, results = 'hide'}
+# Prediction
+rawTestDataOfTitanic<- read.csv("/Users/Lizhengen/Documents/GitHub/R-Practice/Data of Titanic/test.csv")
+ResultOfTestDataOfTitanic<- read.csv("/Users/Lizhengen/Documents/GitHub/R-Practice/Data of Titanic/gender_submission.csv")
+complete.cases(rawTestDataOfTitanic)
+
+rawTestDataOfTitanic[, 12] <- ResultOfTestDataOfTitanic[, 2]
+rawTestDataOfTitanicWithoutNull <- na.omit(rawTestDataOfTitanic)
+predict(modifiedLinearRegressionModel, rawTestDataOfTitanicWithoutNull)
+```
+
+After I built the linear-model, I want to import another data to test the accuracy of this model. So, I ran the codes above to do it. I found that some of these data are null, so I used a similar way to exclude the null data. And then, I use the same way to do the prediction. Unfortunately, it is reasonable that the result of the prediction should be between 0 and 1, but I found that some of the results are over 1, and some of it is negative. I reckon that this the property of dependent variable contribute to this result, the fact is that the dependent variables are the dummy, I should use the logistic model to do the prediction instead of normal linear model. Therefore, I used another way to do the prediction in the next step.
+
+##### 3. Generalized Linear Regression Model & Prediction 
+
+```{r}
+# Generalized Linear Regression Model & Prediction 
+GLMModel <- glm(Survived~Pclass+Sex+Age+SibSp, family = binomial(link = "probit"), data = rawDataOfTitanicWithoutNull)
+summary(GLMModel)
+```
+
+I considered that I could use the generalized linear regression model to predict the survival of passengers instead. Hence, I ran the codes above to build the model, and the summary of this model was shown above.
+
+```{r}
+predictionOfGLM <- predict(GLMModel, rawTestDataOfTitanicWithoutNull, type = "response")
+
+for (i in 1:nrow(rawTestDataOfTitanicWithoutNull)) {
+  if (predictionOfGLM[i] < 0.5) {
+    predictionOfGLM[i] = 0
+  } else {
+    predictionOfGLM[i] = 1
+  }
+}
+```
+
+Afterward, I use this model to predict the survival of passengers. The result is consecutive, but the reasonable result of survival should be discrete. So, I used a loop to round the result to the unit digit.
+
+##### 4. Check the Accuracy (unchecked)
+
+```{r}
+# Check the Accuracy
+correct = 0
+incorrect = 0
+accuracy = 0
+
+for (m in 1:nrow(rawTestDataOfTitanicWithoutNull)) {
+  if (predictionOfGLM[m] == rawTestDataOfTitanicWithoutNull[m, 12]) {
+    correct = correct + 1
+  } else {
+    incorrect = incorrect + 1
+  }
+}
+accuracy = (correct / (correct + incorrect)) * 100
+print(round(accuracy, 2))
+```
+
+In the end, I want to know whether my model is accurate or not. Hence, I ran the codes above to calculate the accuracy, and the final outcome was shown above. As it showed, I know that this glm model is more accurate.
+
+### Conclusion
+
+I examined different variables of the raw data first during the process, and I used several different charts to illustrate what I saw. In the middle of the process, I used linear-model to do the prediction. After I found that my way was not proper, I modified my model and predict the result again. In the end, I calculate the accuracy of the result. I applied a lot of knowledge of R through this process, and I consider that the content above has shown what I learned.
+
+However, I think that I still could do something to enahnce my accuracy. For example, I could use another method, which included cointegration, to do the prediction, or I could use other data, such as means, to replace the null data instead of exclusion of null, so that I could obtain more data to do the estimation. I hoped that I could improve this project if I have the chance someday.
+
+This is all of my report, thanks for your reading.
 
 
-Copyright © 2018 Li Cheng-En. All Rights Reserved.
+
+<center> _Copyright © 2018 Li Cheng-En. All Rights Reserved_ </center>
