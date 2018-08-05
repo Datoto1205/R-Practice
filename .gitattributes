@@ -1,6 +1,6 @@
 # Auto detect text files and perform LF normalization
 
 * linguist-vendored
-*.r linguist-vendored=false
+*.R linguist-vendored=false
 
 # text=auto
