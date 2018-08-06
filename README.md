@@ -24,9 +24,8 @@ In order to learn the knowledge about R, I produced several files in this projec
 
 #### Check my codes to some prediction questions of Kaggle
 1. Download and decompress the ZIP file of this project.
-2. Open Xcode > File > Open...
-3. Enter the folder of ‘R-Practice', and choose the file 'Report of Kaggle Question Practice- Titanic.html’.
-4. Check the html file.
+2. Enter the folder of ‘R-Practice', and choose the file 'Report of Kaggle Question Practice- Titanic.html’.
+3. Check the HTML file.
 
 ### Authors
 
